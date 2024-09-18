@@ -1,0 +1,55 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "declaration": false,
+    "noImplicitThis": true,
+    "target": "ES2020",
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "allowUmdGlobalAccess": false,
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noImplicitReturns": true,
+    "allowUnreachableCode": true,
+    "noUncheckedIndexedAccess": true,
+    "strictFunctionTypes": true,
+    "strict": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force",
+    "baseUrl": "src",
+    "paths": {
+      "lib/*": [
+        "lib/*"
+      ]
+    },
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "ESNext"
+    ],
+    "noLib": false,
+    "allowJs": false,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "inlineSourceMap": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist/**/*",
+    "*.json"
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}
