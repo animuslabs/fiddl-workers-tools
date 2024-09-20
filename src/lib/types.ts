@@ -24,3 +24,16 @@ export interface ImageTotals {
     total: TimePeriodData;
   }
   
+
+  interface SimplifiedWorker {
+    name: string;
+    id: string;
+    online: boolean;
+    maintenance_mode: boolean;
+  }
+  
+  // Define the structure returned by checkWorkerStatus
+export interface WorkerStatus {
+    userName: string;
+    simplifiedWorkers: SimplifiedWorker[];
+  }

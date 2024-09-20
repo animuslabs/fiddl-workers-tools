@@ -26,3 +26,13 @@ export function formatUptime(uptimeInSeconds: number): string {
     return uptimeString.trim();
   }
   
+
+  /**
+ * Converts milliseconds to minutes.
+ * @param ms - The time in milliseconds.
+ * @returns The equivalent time in minutes, formatted to two decimal places.
+ */
+export function millisecondsToMinutes(ms: number): string {
+  const minutes = ms / 60000;
+  return minutes.toFixed(2); // Formats the number to two decimal places
+}

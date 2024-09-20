@@ -110,7 +110,5 @@ node dist/index.js
 ```
 
 ## TO DO
-- check if workers are in maintenance mode and if so, set them to active on a schedule
-- setup a check for workers if they are active or not
-- image generation example script
 - sending email using nodemailer with errors
+- image generation example script

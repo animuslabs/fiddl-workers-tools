@@ -1,8 +1,7 @@
 import { 
-    AIHorde, ImageTotalStats, ImageModelStats,
+    AIHorde, ImageModelStats,
     HordePerformanceStable, WorkerDetailsStable,
-    ModifyWorkerInput, ModifyWorker,
-    UserDetails, WorkerDetails
+    ModifyWorkerInput, ModifyWorker, UserDetails
    } from "@zeldafan0225/ai_horde";
 import config from "../../config.json"
 import { UserWorkersResult, ImageTotals } from "./types";
@@ -134,7 +133,7 @@ export async function checkWorkerStatus(apiKey: string): Promise<{ userName: str
   }
 
   // set worker details
-  async function setWorkerDetails(workerId: string, payload:ModifyWorkerInput, apiKey:string): Promise<ModifyWorker | undefined> {
+export async function setWorkerDetails(workerId: string, payload:ModifyWorkerInput, apiKey:string): Promise<ModifyWorker | undefined> {
     try {
       const result = await ai_horde.updateWorker(payload, workerId, { token: apiKey });
       // console.log("Set worker details result:", result);

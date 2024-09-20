@@ -3,5 +3,10 @@
     "workerKey": "XXX",
     "apiUrl": "https://aihorde.net/api/v2",
     "client_agent_name": "Boid:v0.0.1:Seth",
-    "telegram_bot_token": "XXX:XXX"
+    "telegram_bot_token": "XXX:XXX",
+    "check_workers": true,
+    "check_workers_interval": 1800000,
+    "report_telegram": true,
+    "report_mail": false,
+    "email": ""
 }
