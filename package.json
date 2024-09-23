@@ -4,13 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@types/nodemailer": "^6.4.16",
     "@zeldafan0225/ai_horde": "^5.1.0",
     "eslint": "^9.10.0",
+    "nodemailer": "^6.9.15",
     "telegraf": "^4.16.3",
     "tsc": "^2.0.4",
     "tsc-alias": "^1.8.10",
     "tsc-watch": "^6.2.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "winston": "^3.14.2"
   },
   "scripts": {
     "build": "tsc && tsc-alias -f",

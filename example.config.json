@@ -4,9 +4,21 @@
     "apiUrl": "https://aihorde.net/api/v2",
     "client_agent_name": "Boid:v0.0.1:Seth",
     "telegram_bot_token": "XXX:XXX",
+    "telegram_chat_id": "your_chat_id_here",
     "check_workers": true,
     "check_workers_interval": 1800000,
     "report_telegram": true,
     "report_mail": false,
-    "email": ""
+    "reply_email": "",
+    "smtp": {
+        "service": "gmail",
+        "service_active": true,
+        "host": "smtp.example.com",
+        "port": 587,
+        "secure": false,
+        "auth": {
+            "user": "your_smtp_username",
+            "pass": "your_smtp_password"
+        }
+    }
 }

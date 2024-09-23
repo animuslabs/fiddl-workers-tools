@@ -7,10 +7,6 @@ import config from "../../config.json"
 import { UserWorkersResult, ImageTotals } from "./types";
   
   const ai_horde = new AIHorde({
-    cache_interval: 1000 * 10,
-    cache: {
-      generations_check: 1000 * 30,
-    },
     client_agent: config.client_agent_name,
     api_route: config.apiUrl,
   });
@@ -71,13 +67,25 @@ export async function getWorkers(): Promise<WorkerDetailsStable[] | unknown> {
       return undefined;
     }
   }
+
+// get worker by id
+export async function getWorkerById(workerId:string): Promise<WorkerDetailsStable | unknown> {
+    try {
+      const worker = await ai_horde.getWorkerDetails(workerId);
+      // console.log("Worker:", worker);
+      return worker;
+    } catch (error) {
+      console.error("An error occurred while getting worker info:", error);
+      return undefined;
+    }
+  }
   
   // find user by key
   async function findUserByKey(apiKey: string): Promise<UserDetails | unknown> {
     try {
       const user = await ai_horde.findUser({token: apiKey});
     //   console.log("API Key:", apiKey);
-    //   console.log("User:", user);
+      // console.log("User:", user);
       return user;
     } catch (error) {
       console.error("An error occurred while finding user by key:", error);
@@ -89,10 +97,13 @@ export async function getWorkers(): Promise<WorkerDetailsStable[] | unknown> {
     try {
       const findUser = await findUserByKey(apiKey) as UserDetails;
       const userWorkers = findUser.worker_ids as string[];
+      console.log("User Workers:", userWorkers);
       const userName = findUser.username as string;
-      const workerDetails = await getWorkers() as WorkerDetailsStable[];
-      const userWorkerDetails = workerDetails.filter(worker => worker.id && userWorkers.includes(worker.id));
-    //   console.log("User Name:", userName, "User Worker Details:", userWorkerDetails);
+
+    // Fetch worker details for each worker ID concurrently
+    const workerDetailsPromises = userWorkers.map((workerId) => getWorkerById(workerId));
+    const userWorkerDetails = await Promise.all(workerDetailsPromises);
+      // console.log("User Name:", userName, "User Worker Details:", userWorkerDetails);
       return {userName, userWorkerDetails };
     } catch (error) {
       console.error("An error occurred while getting user workers:", error);

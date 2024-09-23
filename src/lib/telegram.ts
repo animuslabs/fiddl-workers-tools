@@ -1,7 +1,7 @@
 import { Telegraf, Markup } from 'telegraf';
 import config from "../../config.json"
 export const bot = new Telegraf(config.telegram_bot_token)
-import { checkPerformance, checkImageTotals, checkWorkerStatus, getWorkers } from './hordeAPI';
+import { checkPerformance, checkImageTotals, checkWorkerStatus, getWorkers, getWorkerById } from './hordeAPI';
 import { WorkerDetailsStable } from "@zeldafan0225/ai_horde";
 import { formatUptime } from './helperFunctions';
 
@@ -172,18 +172,9 @@ bot.action('workerdetails', async (ctx) => {
       const workerId = ctx.message.text.trim();
       console.log('User provided worker ID:', workerId);
   
-      // Call getWorkers and find the worker with the given ID
       try {
-        const allWorkers = await getWorkers() as WorkerDetailsStable[];
-        console.log('Number of workers retrieved:', allWorkers.length);
-        // console.log('All Worker IDs:', allWorkers.map(w => w.id));
+        const worker = await getWorkerById(workerId) as WorkerDetailsStable;
   
-        // Normalize the IDs for comparison
-        const normalizedWorkerId = workerId.trim().toLowerCase();
-  
-        // Find the worker with the matching ID
-        const worker = allWorkers.find(w => w.id && w.id.trim().toLowerCase() === normalizedWorkerId);
-        console.log('Worker found:', worker);
         if (worker) {
             const uptimeFormatted = worker.uptime ? formatUptime(worker.uptime) : 'N/A';
           // Worker found, display detailed information

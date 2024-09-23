@@ -25,7 +25,11 @@ async function checkWorkers(): Promise<void> {
   
         // Check if the worker is offline
         if (!online) {
-          throw new Error(`Worker "${name}" (ID: ${id}) is offline.`);
+          const errorMessage = `Worker "${name}" (ID: ${id}) is offline.`;
+          console.error(errorMessage);
+          await reportErrorTelegram(errorMessage);
+          await reportErrorMail(errorMessage);
+          continue
         }
   
         // If the worker is in maintenance mode, attempt to disable it
@@ -40,7 +44,11 @@ async function checkWorkers(): Promise<void> {
   
           // Handle cases where updating the worker details fails
           if (!updatedWorker) {
-            throw new Error(`Failed to update maintenance mode for worker "${name}" (ID: ${id}).`);
+            const errorMessage = `Failed to update maintenance mode for worker "${name}" (ID: ${id}).`;
+            console.error(errorMessage);
+            await reportErrorTelegram(errorMessage);
+            await reportErrorMail(errorMessage);
+            continue;
           }
   
           console.log(`Successfully disabled maintenance mode for worker "${name}" (ID: ${id}).`);
@@ -56,7 +64,7 @@ async function checkWorkers(): Promise<void> {
         const errorMessage = `Worker Check Error: ${error.message || error}`;
         await reportErrorTelegram(errorMessage);
         await reportErrorMail(errorMessage);
-      throw error; // Re-throw the error if further handling is needed upstream
+        throw error; // Re-throw the error if further handling is needed upstream
     }
   }
   
