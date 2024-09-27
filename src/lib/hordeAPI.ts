@@ -1,12 +1,12 @@
 import { 
     AIHorde, ImageModelStats,
     HordePerformanceStable, WorkerDetailsStable,
-    ModifyWorkerInput, ModifyWorker, UserDetails
+    ModifyWorkerInput, ModifyWorker, UserDetails, ImageGenerationInput
    } from "@zeldafan0225/ai_horde";
 import config from "../../config.json"
-import { UserWorkersResult, ImageTotals } from "./types";
+import { UserWorkersResult, ImageTotals } from "../types/types";
   
-  const ai_horde = new AIHorde({
+export const ai_horde = new AIHorde({
     client_agent: config.client_agent_name,
     api_route: config.apiUrl,
   });
@@ -154,4 +154,3 @@ export async function setWorkerDetails(workerId: string, payload:ModifyWorkerInp
       return undefined;
     }
   }
-  

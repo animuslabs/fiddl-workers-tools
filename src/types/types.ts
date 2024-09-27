@@ -1,8 +1,4 @@
-import { 
-    AIHorde, ImageTotalStats, ImageModelStats,
-    HordePerformanceStable, WorkerDetailsStable,
-    ModifyWorkerInput, ModifyWorker,
-    UserDetails, WorkerDetails
+import { WorkerDetailsStable
    } from "@zeldafan0225/ai_horde";
 
 export interface UserWorkersResult {
