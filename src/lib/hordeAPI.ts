@@ -1,7 +1,6 @@
 import axiosInstance from "./axios";
 import { UserWorkersResult, StatsImgTotalsType } from "../types/types";
 import { ImgModelStats, HordePerformance, WorkerDetails, UserDetails, ModifyWorkerInput, ModifyWorker } from "../types/stable_horde"
-  
 
   // check if the API is reachable
 export async function checkAPIStatus(): Promise<boolean> {

@@ -2,8 +2,8 @@ import { Telegraf, Markup } from 'telegraf';
 import config from "../../config.json"
 export const bot = new Telegraf(config.telegram_bot_token)
 import { checkPerformance, checkImageTotals, checkWorkerStatus, getWorkerById } from './hordeAPI';
-import { WorkerDetailsStable } from "@zeldafan0225/ai_horde";
 import { formatUptime } from './helperFunctions';
+import { WorkerDetails } from "../types/stable_horde"
 
 // Define the button menu
 const buttonMenu = Markup.inlineKeyboard([
@@ -173,7 +173,7 @@ bot.action('workerdetails', async (ctx) => {
       console.log('User provided worker ID:', workerId);
   
       try {
-        const worker = await getWorkerById(workerId) as WorkerDetailsStable;
+        const worker = await getWorkerById(workerId) as WorkerDetails;
   
         if (worker) {
             const uptimeFormatted = worker.uptime ? formatUptime(worker.uptime) : 'N/A';
