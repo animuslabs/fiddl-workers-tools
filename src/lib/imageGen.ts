@@ -1,9 +1,9 @@
 import { 
-    ImageGenerationInput
-   } from "@zeldafan0225/ai_horde";
+  GenerationInputStable
+   } from "../types/stable_horde";
 
 import config from "../../config.json"
-import { ai_horde } from "./hordeAPI";
+import axiosInstance from "./axios";
 
 const models = [
     "OpenNiji", "Inkpunk Diffusion", "Midjourney PaintArt",
@@ -31,7 +31,7 @@ async function generateImage(
     seed?: number, // seed to use
     ) {
     try {
-        const generation_data: ImageGenerationInput = {
+        const payload: GenerationInputStable = {
         prompt: prompt,
         params: {
             steps,
@@ -47,9 +47,9 @@ async function generateImage(
         nsfw: true,
         models: [model]
       };
-      const result = await ai_horde.postAsyncImageGenerate(generation_data, {token: apiKey});
+      const result = await axiosInstance.post('/generate/async', payload, { headers: { 'apikey': apiKey } });
       console.log("Generated Image:", result);
-      return {id: result.id, image: result.message};
+      return {id: result.data.id, image: result.data.message};
     }
     catch (error) {
       console.error("An error occurred while generating image:", error);
@@ -59,9 +59,9 @@ async function generateImage(
 
 async function checkGenerationImageStatus(image_id: string) {
     try {
-        const checkImage = await ai_horde.getImageGenerationCheck(image_id);
-        console.log("Image Generation Check:", checkImage);
-        return checkImage;
+        const checkImage = await axiosInstance.get(`/generate/check/${image_id}`);
+        console.log("Image Generation Check:", checkImage.data);
+        return checkImage.data;
     }
     catch (error) {
         console.error("An error occurred while getting generated image:", error);
@@ -71,9 +71,9 @@ async function checkGenerationImageStatus(image_id: string) {
 
 async function getGeneratedImage(image_id: string) {
     try {
-        const result = await ai_horde.getImageGenerationStatus(image_id);
-        console.log("Image Generation Status:", result);
-        return result;
+        const result = await axiosInstance.get(`/generate/status/${image_id}`);
+        console.log("Image Generation Status:", result.data);
+        return result.data;
     }
     catch (error) {
         console.error("An error occurred while checking image generation status:", error);
@@ -158,7 +158,7 @@ async function generateAndRetrieveImage(
   const apiKey = config.mainUserKey;
   
   generateAndRetrieveImage(
-    "A beautiful sunset over the ocean with a pair holding hands walking along the shore line",
+    "A beautiful sunset over the ocean with a pair holding hands walking along the shore line. behind them a dragon destroys a city.",
     "Deliberate 3.0",
     apiKey,
     512,

@@ -1,5 +1,5 @@
-import { ModifyWorkerInput } from "@zeldafan0225/ai_horde";
 import { checkWorkerStatus, setWorkerDetails } from './lib/hordeAPI';
+import { ModifyWorkerInput } from "./types/stable_horde"
 import config from "../config.json"
 import { WorkerStatus } from './types/types';
 import { reportErrorTelegram, reportErrorMail } from './lib/report';

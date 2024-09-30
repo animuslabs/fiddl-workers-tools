@@ -1,7 +1,7 @@
 import { Telegraf, Markup } from 'telegraf';
 import config from "../../config.json"
 export const bot = new Telegraf(config.telegram_bot_token)
-import { checkPerformance, checkImageTotals, checkWorkerStatus, getWorkers, getWorkerById } from './hordeAPI';
+import { checkPerformance, checkImageTotals, checkWorkerStatus, getWorkerById } from './hordeAPI';
 import { WorkerDetailsStable } from "@zeldafan0225/ai_horde";
 import { formatUptime } from './helperFunctions';
 

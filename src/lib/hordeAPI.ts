@@ -1,20 +1,12 @@
-import { 
-    AIHorde, ImageModelStats,
-    HordePerformanceStable, WorkerDetailsStable,
-    ModifyWorkerInput, ModifyWorker, UserDetails, ImageGenerationInput
-   } from "@zeldafan0225/ai_horde";
-import config from "../../config.json"
-import { UserWorkersResult, ImageTotals } from "../types/types";
+import axiosInstance from "./axios";
+import { UserWorkersResult, StatsImgTotalsType } from "../types/types";
+import { ImgModelStats, HordePerformance, WorkerDetails, UserDetails, ModifyWorkerInput, ModifyWorker } from "../types/stable_horde"
   
-export const ai_horde = new AIHorde({
-    client_agent: config.client_agent_name,
-    api_route: config.apiUrl,
-  });
-  
+
   // check if the API is reachable
 export async function checkAPIStatus(): Promise<boolean> {
     try {
-      const isReachable = await ai_horde.getHeartbeat();
+      const isReachable = await axiosInstance.get('/status/heartbeat');
       if (isReachable) {
         console.log("API is reachable");
         return true;
@@ -31,12 +23,14 @@ export async function checkAPIStatus(): Promise<boolean> {
   }
   
   // check image and model totals
-export async function checkImageTotals(): Promise<{ totals: ImageTotals, modelTotals: ImageModelStats } | undefined> {
+export async function checkImageTotals(): Promise<{ totals: StatsImgTotalsType, modelTotals: ImgModelStats } | undefined> {
     try {
-      const totals = await ai_horde.getImageTotalStats() as ImageTotals;
-      const modelTotals = await ai_horde.getImageModelStats();
-    //   console.log("Image totals:", totals);
-    //   console.log("Model totals:", modelTotals);
+      const totalsResponse = await axiosInstance.get('/stats/img/totals');
+      const modelTotalsResponse = await axiosInstance.get('/stats/img/models');
+      const totals:StatsImgTotalsType = totalsResponse.data;
+      const modelTotals:ImgModelStats = modelTotalsResponse.data;
+      // console.log("Image totals:", totals);
+      // console.log("Model totals:", modelTotals);
       return { totals, modelTotals };
     } catch (error: any) {
       console.error("An error occurred while checking image totals:", error);
@@ -45,9 +39,10 @@ export async function checkImageTotals(): Promise<{ totals: ImageTotals, modelTo
   }
   
   // check performance 
-export async function checkPerformance(): Promise<HordePerformanceStable | undefined> {
+export async function checkPerformance(): Promise<HordePerformance | undefined> {
     try {
-      const performance = await ai_horde.getPerformance();
+      const performanceResponse = await axiosInstance.get('/status/performance');
+      const performance:HordePerformance = performanceResponse.data;
       console.log("Performance:", performance);
       return performance;
     } catch (error) {
@@ -57,10 +52,11 @@ export async function checkPerformance(): Promise<HordePerformanceStable | undef
   }
   
   // get all workers
-export async function getWorkers(): Promise<WorkerDetailsStable[] | unknown> {
+export async function getWorkers(): Promise<WorkerDetails[] | unknown> {
     try {
-      const workers = await ai_horde.getWorkers();
-      // console.log("Workers:", workers);
+      const workersResponse = await axiosInstance.get('/workers');
+      const workers:WorkerDetails[] = workersResponse.data;
+      console.log("Workers:", workers);
       return workers;
     } catch (error) {
       console.error("An error occurred while getting workers:", error);
@@ -69,10 +65,11 @@ export async function getWorkers(): Promise<WorkerDetailsStable[] | unknown> {
   }
 
 // get worker by id
-export async function getWorkerById(workerId:string): Promise<WorkerDetailsStable | unknown> {
+export async function getWorkerById(workerId:string): Promise<WorkerDetails | unknown> {
     try {
-      const worker = await ai_horde.getWorkerDetails(workerId);
-      // console.log("Worker:", worker);
+      const workersResponse = await axiosInstance.get(`/workers/${workerId}`);
+      const worker:WorkerDetails = workersResponse.data;
+      console.log("Worker:", worker);
       return worker;
     } catch (error) {
       console.error("An error occurred while getting worker info:", error);
@@ -81,10 +78,11 @@ export async function getWorkerById(workerId:string): Promise<WorkerDetailsStabl
   }
   
   // find user by key
-  async function findUserByKey(apiKey: string): Promise<UserDetails | unknown> {
+async function findUserByKey(apiKey: string): Promise<UserDetails | unknown> {
     try {
-      const user = await ai_horde.findUser({token: apiKey});
-    //   console.log("API Key:", apiKey);
+      const findUserResponse = await axiosInstance.get('/find_user', { headers: { 'apikey': apiKey } });
+      const user:UserDetails = findUserResponse.data;
+      // console.log("API Key:", apiKey);
       // console.log("User:", user);
       return user;
     } catch (error) {
@@ -97,7 +95,7 @@ export async function getWorkerById(workerId:string): Promise<WorkerDetailsStabl
     try {
       const findUser = await findUserByKey(apiKey) as UserDetails;
       const userWorkers = findUser.worker_ids as string[];
-      console.log("User Workers:", userWorkers);
+      // console.log("User Workers:", userWorkers);
       const userName = findUser.username as string;
 
     // Fetch worker details for each worker ID concurrently
@@ -121,7 +119,7 @@ export async function checkWorkerStatus(apiKey: string): Promise<{ userName: str
         return 'no_user';
       }
       
-      const { userName, userWorkerDetails } = result as { userName: string, userWorkerDetails: WorkerDetailsStable[] };
+      const { userName, userWorkerDetails } = result as { userName: string, userWorkerDetails: WorkerDetails[] };
   
       const simplifiedWorkers = userWorkerDetails.map(worker => ({
         name: worker.name || 'Unknown',
@@ -146,8 +144,9 @@ export async function checkWorkerStatus(apiKey: string): Promise<{ userName: str
   // set worker details
 export async function setWorkerDetails(workerId: string, payload:ModifyWorkerInput, apiKey:string): Promise<ModifyWorker | undefined> {
     try {
-      const result = await ai_horde.updateWorker(payload, workerId, { token: apiKey });
-      // console.log("Set worker details result:", result);
+      const resultResponse = await axiosInstance.post(`/generate/async/${workerId}`, payload, { headers: { 'apikey': apiKey } });
+      const result:ModifyWorker = resultResponse.data;
+      console.log("Set worker details result:", result);
       return result;
     } catch (error) {
       console.error("An error occurred while setting worker details:", error);
