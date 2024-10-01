@@ -6,7 +6,7 @@ import config from "../../config.json"
 import axiosInstance from "./axios";
 
 const models = [
-    "OpenNiji", "Inkpunk Diffusion", "Midjourney PaintArt",
+    "Openniji", "Inkpunk Diffusion", "Midjourney PaintArt",
     "OpenJourney Diffusion", "iCoMix Inpainting", "Deliberate", "Deliberate 3.0"] as const;
 const samplers = [
     "k_lms", "k_heun", "k_euler", "k_euler_a",
@@ -158,8 +158,8 @@ async function generateAndRetrieveImage(
   const apiKey = config.mainUserKey;
   
   generateAndRetrieveImage(
-    "A beautiful sunset over the ocean with a pair holding hands walking along the shore line. behind them a dragon destroys a city.",
-    "Deliberate 3.0",
+    "Extremely detailed photographic image, grained image, beautifully composed, monochrome image, 00's fashionable image, fashionable magazine photography, leica summicron 35mm f2.0, Kodak 400tx, fashion photography, fashionable model, Two beautiful Japanese realistic anime idol girls, one white dress, one black suit with mini skirt, turning their backs on each other with no intimacy",
+    models[1],
     apiKey,
     512,
     512,
