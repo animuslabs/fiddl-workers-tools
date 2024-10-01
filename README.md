@@ -53,3 +53,6 @@ node dist/index.js
 
 ## IMAGE GENERATION
 in lib/imageGen.ts file there is a script example on how to generate an image and get the img url (generateAndRetrieveImage function)
+
+## WAITING PROMPTS TABLE
+in db-tools.ts clearWaitingPromptsTable function will clear everything in the waiting queues. use only when there is a big issue

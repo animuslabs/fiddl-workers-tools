@@ -25,5 +25,12 @@
             "user": "your_smtp_username",
             "pass": "your_smtp_password"
         }
+    },
+    "server-db": {
+        "host": "localhost",
+        "port": 5432,
+        "db-name": "postgres",
+        "user": "postgres",
+        "pass": "xxx"
     }
 }
