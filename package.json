@@ -6,7 +6,7 @@
   "dependencies": {
     "@types/nodemailer": "^6.4.16",
     "@types/pg": "^8.11.10",
-    "axios": "^1.7.7",
+    "axios": "^1.12.0",
     "eslint": "^9.10.0",
     "nodemailer": "^6.9.15",
     "pg": "^8.13.0",
